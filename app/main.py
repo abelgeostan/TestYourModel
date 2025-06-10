@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse,FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from ultralytics import YOLO
@@ -23,6 +24,9 @@ app.add_middleware(
 BASE_DIR = Path(__file__).resolve().parent
 PERSISTENT_DIR = BASE_DIR / "persistent_files"
 PERSISTENT_DIR.mkdir(exist_ok=True)
+
+# STATIC_DIR = BASE_DIR.parent / "static"
+# app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
 @app.post("/run-detection")
 async def run_detection(model: UploadFile = File(...), media: UploadFile = File(...)):
@@ -110,5 +114,5 @@ async def run_detection(model: UploadFile = File(...), media: UploadFile = File(
 
     finally:
         # TEMPORARILY DISABLED CLEANUP FOR DEBUGGING
-        # shutil.rmtree(request_dir, ignore_errors=True)
+        shutil.rmtree(request_dir, ignore_errors=True)
         pass

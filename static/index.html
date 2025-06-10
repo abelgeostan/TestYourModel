@@ -122,7 +122,7 @@
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minute timeout
 
-    const res = await fetch('http://localhost:8000/run-detection', {
+    const res = await fetch('http://127.0.0.1:8000/run-detection', {
       method: 'POST',
       body: formData,
       signal: controller.signal
